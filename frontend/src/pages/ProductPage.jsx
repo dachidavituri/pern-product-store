@@ -27,7 +27,7 @@ function ProductPage() {
     }
   };
 
-  if (loading) {
+  if (loading || !currentProduct) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="loading loading-spinner loading-lg"></div>
@@ -36,9 +36,11 @@ function ProductPage() {
   }
 
   if (error) {
-    <div className="container mx-auto px-4 py-8">
-      <div className="alert alert-error">{error}</div>
-    </div>;
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="alert alert-error">{error}</div>
+      </div>
+    );
   }
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
@@ -49,8 +51,8 @@ function ProductPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="rounded-lg overflow-hidden shadow-lg bg-base-100">
           <img
-            src={currentProduct.image}
-            alt={currentProduct.name}
+            src={currentProduct?.image}
+            alt={currentProduct?.name}
             className="size-full object-cover"
           />
         </div>
