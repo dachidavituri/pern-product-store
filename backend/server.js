@@ -20,9 +20,9 @@ app.use(cors());
 app.use(
   helmet({
     contentSecurityPolicy: false,
-  })
+  }),
 );
-app.use(morgan("dev")); 
+app.use(morgan("dev"));
 
 app.use(async (req, res, next) => {
   try {
@@ -41,7 +41,11 @@ app.use(async (req, res, next) => {
       return;
     }
 
-    if (decision.results.some((result) => result.reason.isBot() && result.reason.isSpoofed())) {
+    if (
+      decision.results.some(
+        (result) => result.reason.isBot() && result.reason.isSpoofed(),
+      )
+    ) {
       res.status(403).json({ error: "Spoofed bot detected" });
       return;
     }
@@ -56,12 +60,14 @@ app.use(async (req, res, next) => {
 app.use("/api/products", productRoutes);
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "/frontend/dist")));
+  app.use(express.static(path.join(__dirname, "frontend", "dist")));
 
-  app.get("*", (req, res) => {
+  
+  app.get(/.*/, (req, res) => {
     res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
   });
 }
+
 
 async function initDB() {
   try {

@@ -95,7 +95,7 @@ export const useProductStore = create((set, get) => ({
       const { formData } = get();
       const response = await axios.put(
         `${BASE_URL}/api/products/${id}`,
-        formData
+        formData,
       );
       set({ currentProduct: response.data.data });
       toast.success("Product updated successfully");
